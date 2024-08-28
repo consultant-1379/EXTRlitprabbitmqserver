@@ -1,0 +1,12 @@
+/var/log/rabbitmq/*.log {
+        weekly
+        missingok
+        rotate 20
+        compress
+        delaycompress
+        notifempty
+        sharedscripts
+        postrotate
+            /usr/local/bin/rabbitmq-server.sh rotate-logs > /dev/null
+        endscript
+}

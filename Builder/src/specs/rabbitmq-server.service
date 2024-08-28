@@ -1,0 +1,24 @@
+[Unit]
+Description=RabbitMQ broker
+After=network.target epmd@0.0.0.0.socket
+After=remote-fs.target
+After=network-online.target
+Before=shutdown.target
+Wants=network.target epmd@0.0.0.0.socket
+Wants=network-online.target
+Conflicts=shutdown.target
+
+[Service]
+Type=forking
+KillMode=process
+PIDFile=/var/run/rabbitmq/pid
+NotifyAccess=all
+Restart=on-failure
+RemainAfterExit=yes
+RestartSec=10
+TimeoutStartSec=3600
+ExecStart=/usr/local/bin/rabbitmq-server.sh start
+ExecStop=/usr/local/bin/rabbitmq-server.sh stop
+
+[Install]
+WantedBy=multi-user.target
